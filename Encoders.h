@@ -1,7 +1,7 @@
 int encoderLeft = 7;
 int encoderRight = 8;
-int count_left, rounds_left = 0;
-int count_right, rounds_right = 0;
+volatile int count_left, rounds_left = 0;
+volatile int count_right, rounds_right = 0;
 float diameter_wheel = 5;
 float distance_left, distance_right = 0;
 
