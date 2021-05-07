@@ -5,13 +5,13 @@ int count_right, rounds_right = 0;
 float diameter_wheel = 0;
 float distance_left, distance_right = 0;
 
-void setup(){
+void setup_decoders(){
   attachInterrupt(digitalPinToInterrupt(encoderLeft), isrLeft ,RISING); //attach function for left encoder
   attachInterrupt(digitalPinToInterrupt(encoderRight), isrRight ,RISING); //attach function for right encoder
   
 }
 
-void loop(){
+void calculate_distance(){
   distance_left = rounds_left*PI*diameter_wheel; //calculate distance travelled by left wheel
   distance_right = rounds_right*PI*diameter_wheel; // calculate distance travelles by right wheel
 }
