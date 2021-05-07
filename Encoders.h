@@ -18,8 +18,8 @@ void calculate_distance(){
 
 //attach function to get rounds for left encoder
 void isrLeft(){
-  count_left++;
-  if(count_left == 9){
+  count_left++; //increase count per high signal
+  if(count_left == 9){ //if count is 9 made full circle
     rounds_left++;
     count_left = 0;
   }
@@ -27,8 +27,8 @@ void isrLeft(){
 
 //attach function to get rounds for right encoder
 void isrRight(){
-  count_right++;
-  if(count_right == 9){
+  count_right++; //increase count per high signal
+  if(count_right == 9){//if count is 9 made full circle
     rounds_right++;
     count_right=0;
   }
