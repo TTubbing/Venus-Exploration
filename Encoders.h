@@ -6,6 +6,8 @@ float diameter_wheel = 0;
 float distance_left, distance_right = 0;
 
 void setup_decoders(){
+  pinMode(encoderLeft, INPUT);
+  pinMode(encoderRight, INPUT);
   attachInterrupt(digitalPinToInterrupt(encoderLeft), isrLeft ,RISING); //attach function for left encoder
   attachInterrupt(digitalPinToInterrupt(encoderRight), isrRight ,RISING); //attach function for right encoder
   
