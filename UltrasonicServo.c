@@ -7,9 +7,11 @@ void setup() {
 }
 
 void loop() {
-  GripperOpen();
+  ServoToFront();
   delay(1000);
-  GripperClose();
+  ServoToLeft();
+  delay(1000);
+  ServoToRight();
   delay(1000);
 }
 
