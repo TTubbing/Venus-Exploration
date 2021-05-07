@@ -1,6 +1,6 @@
 #include <Servo.h>
 Servo myservo;
-#define servoPin 10
+#define servoPin 11
 
 void setup() {
   myservo.attach(servoPin);
