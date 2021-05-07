@@ -16,7 +16,7 @@ void loop(){
   distance_right = rounds_right*PI*diameter_wheel; // calculate distance travelles by right wheel
 }
 
-//get rounds for left encoder
+//attach function to get rounds for left encoder
 void isrLeft(){
   count_left++;
   if(count_left == 9){
@@ -25,7 +25,7 @@ void isrLeft(){
   }
 }
 
-//get rounds for right encoder
+//attach function to get rounds for right encoder
 void isrRight(){
   count_right++;
   if(count_right == 9){
