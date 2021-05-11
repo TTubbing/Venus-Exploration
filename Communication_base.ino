@@ -18,6 +18,7 @@ void setup() {
 }
 
 void loop() {
+ receive_data();
   //Hey I'm from IR and we found a rock, now we have to send that to movement and to comms
   send_data(nr_rock_found);
 }
