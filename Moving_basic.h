@@ -34,8 +34,6 @@ void loop() {
   delay(5000);
 }
 
-
-
 void forward(){
   servoLeft.write(180); // Send signal to servo
   servoRight.write(0); // 0 fast backwards, 90 stop, 180 fast forwards.
