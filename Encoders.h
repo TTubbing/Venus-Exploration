@@ -16,8 +16,8 @@ void setup_encoders() {
 }
 
 void calculate_distance(){
-  distance_left = (rounds_left/9)*PI*diameter_wheel; //calculate distance travelled by left wheel
-  distance_right = (rounds_right/9)*PI*diameter_wheel; // calculate distance travelles by right wheel
+  distance_left = (count_left/9)*PI*diameter_wheel; //calculate distance travelled by left wheel
+  distance_right = (count_right/9)*PI*diameter_wheel; // calculate distance travelles by right wheel
 }
 
 //attach function to get rounds for left encoder
