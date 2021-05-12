@@ -26,6 +26,7 @@ void loop() {
   }
   
   if(IR == 0){
-    while(
+    while(distance_left < 10 && distance_righ < 10){
+      calculate_distance()
   }
 }
