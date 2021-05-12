@@ -2,6 +2,7 @@ int IR = 1; //infrared detectable obstacles
 int US_high, US_low = 0; //distance to obstacle
 int mountain, cliff, rock = 0;
 int min_distance = 15; //Minimum distance to an obstacle
+int IR_forward = 10; //distance to drive after detecting black tape
 int lab = 1; //Robot at lab
 int starting_sequence = 1;
 
@@ -26,8 +27,20 @@ void loop() {
   }
   
   if(IR == 0){
-    while(distance_left < 10 && distance_right < 10){
-      calculate_distance()
-  }
-    stopp()
+    distance_left = 0; //set distance count to 0
+    distance_right = 0; //set distance count to 0
+    
+    while(distance_right < IR_forward && distance_left < IR_forward){
+      calculate_distance();
+    }
+    stopp();
+    
+    IR = ir_input(); //read infrared input again
+    
+    if(IR == 0){ //black tape again -> it is a cliff
+      cliff = 1;
+    }
+    else{
+      border = 1;
+    }
 }
