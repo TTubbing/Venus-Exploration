@@ -26,6 +26,6 @@ void loop() {
   }
   
   if(IR == 0){
-    
+    while(
   }
 }
