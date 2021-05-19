@@ -30,7 +30,7 @@ void stopp(){
   servoRight.write(90+correction);
 }
 
-void turnRight(int angle){
+void turn(int angle){
   
   int milliseconds;
   
@@ -38,6 +38,7 @@ void turnRight(int angle){
   servoLeft.write(180);
   servoRight.write(180);
   delay(milliseconds); // During the delay the motors keep running till next line
+  addpath(angle, 0);
   stopp();
 }
 
