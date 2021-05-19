@@ -9,29 +9,10 @@ int correction = -1; // Correction for the motors
 Servo servoLeft; // Define servos
 Servo servoRight;
 
-void setup() {
+void setup_movement() {
   
   servoLeft.attach(pinLeft);
   servoRight.attach(pinRight);
-}
-
-void loop() {
-  int angle; // Define angle which robot has to turn
-
-  forward(); // Move forwards
-  delay(5000); // Keep moving forwards during delay
-  stopp(); // Stop moving
-  delay(5000);
-  backward(); //Move backwards
-  delay(5000);
-  stopp();
-  delay(5000);
-  angle = 90;
-  turnRight(angle); // Robot turns to the right (90 degree)
-  delay(5000);
-  angle = 90;
-  turnLeft(angle); // Robot turns to the left (90 degree)
-  delay(5000);
 }
 
 void forward(){
