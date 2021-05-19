@@ -4,7 +4,7 @@ int encoderLeft = 7;
 int encoderRight = 8;
 volatile int count_left = 0;
 volatile int count_right = 0;
-float diameter_wheel = 5;
+float diameter_wheel = 6.5;
 float distance_left, distance_right = 0;
 
 void setup_encoders() {
