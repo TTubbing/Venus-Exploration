@@ -4,7 +4,7 @@
 const int pingPin = 9;
 long distance4, distance3;
 
-void setup() {
+void setup_US() {
   pinMode(trigPin, OUTPUT); 
   pinMode(echoPin, INPUT); 
   Serial.begin(9600); 
@@ -18,7 +18,7 @@ void loop() {
   Serial.println(" distance 3pin ");
   Serial.println(distance3);
 }
-long Distance4pin(){
+long US_high(){
   long duration, cm;
   
   digitalWrite(trigPin, LOW);
@@ -32,7 +32,7 @@ long Distance4pin(){
   cm = microsecondsToCentimeters(duration);
   return cm;
 }
-long Distance3pin(){
+long US_low(){
   long duration, cm;
 
   pinMode(pingPin, OUTPUT);
