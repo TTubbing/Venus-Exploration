@@ -25,9 +25,10 @@ void backward(){
   servoRight.write(180);
 }
 
-void stopp(){
+void stopp(int angle, int distance){
   servoLeft.write(90+correction); // Correction is needed to calibrate stop point
   servoRight.write(90+correction);
+  addpath(angle, distance); //Add angle and distance to path
 }
 
 void turn(int angle){
@@ -49,6 +50,5 @@ void turn(int angle){
     delay(milliseconds); //During the delay the motors keep running till next line
   }
   
-  addpath(angle, 0);
-  stopp();
+  stopp(angle, 0); //stop and add angle to path
 }
