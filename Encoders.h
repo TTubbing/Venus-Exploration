@@ -15,6 +15,11 @@ void setup_encoders() {
   enableInterrupt(encoderRight, isrRight, RISING);
 }
 
+void reset_distance(){
+  distance_left = 0;
+  distance_right = 0;
+}
+
 void calculate_distance(){
   distance_left = (count_left/9)*PI*diameter_wheel; //calculate distance travelled by left wheel
   distance_right = (count_right/9)*PI*diameter_wheel; // calculate distance travelles by right wheel
