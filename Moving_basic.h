@@ -35,20 +35,20 @@ void turn(int angle){
   int milliseconds;
   
   milliseconds = (360/angle)*timeturn; // seconds to turn the given angle
-  servoLeft.write(180);
-  servoRight.write(180);
-  delay(milliseconds); // During the delay the motors keep running till next line
+  
+  if(angle>0){
+    servoLeft.write(180);
+    servoRight.write(180);
+    delay(milliseconds); // During the delay the motors keep running till next line
+  }
+  
+  if(angle<0){
+    milliseconds = (angle/360)*timeturn;
+    servoLeft.write(0);
+    servoRight.write(0);
+    delay(milliseconds); //During the delay the motors keep running till next line
+  }
+  
   addpath(angle, 0);
-  stopp();
-}
-
-void turnLeft(int angle){
-  
-  int milliseconds;
-  
-  milliseconds = (angle/360)*timeturn;
-  servoLeft.write(0);
-  servoRight.write(0);
-  delay(milliseconds);
   stopp();
 }
