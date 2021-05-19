@@ -12,20 +12,18 @@ Servo servoRight;
 void setup_movement() {
   servoLeft.attach(pinLeft);
   servoRight.attach(pinRight);
-  return;
 }
 
 void forward(){
-  reset_distance();
+  reset_count();
   servoLeft.write(180); // Send signal to servo
   servoRight.write(0); // 0 fast backwards, 90 stop, 180 fast forwards.
-  return;
 }
 
 void backward(){
+  reset_count();
   servoLeft.write(0); // Left is 0 and right 180 because of the way installed
   servoRight.write(180);
-  return;
 }
 
 void stopp(int angle, int distance){
@@ -54,5 +52,4 @@ void turn(int angle){
   }
   
   stopp(angle, 0); //stop and add angle to path
-  return;
 }
