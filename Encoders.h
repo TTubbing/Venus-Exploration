@@ -13,19 +13,11 @@ void setup_encoders() {
   enableInterrupt(encoderLeft, isrLeft, RISING);
   pinMode(encoderRight, INPUT_PULLUP);
   enableInterrupt(encoderRight, isrRight, RISING);
-  return;
 }
 
-void reset_distance(){
-  distance_left = 0;
-  distance_right = 0;
-  return;
-}
-
-void calculate_distance(){
-  distance_left = (count_left/9)*PI*diameter_wheel; //calculate distance travelled by left wheel
-  distance_right = (count_right/9)*PI*diameter_wheel; // calculate distance travelles by right wheel
-  return;
+void reset_count(){
+  count_left = 0;
+  count_right = 0;
 }
 
 //attach function to get rounds for left encoder
