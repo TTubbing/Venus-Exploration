@@ -30,6 +30,7 @@ void stopp(int angle, int count){
   servoLeft.write(90+correction); // Correction is needed to calibrate stop point
   servoRight.write(90+correction);
   addpath(angle, count); //Add angle and distance to path
+  reset_count(); //Set encoder values to 0
 }
 
 void turn(int angle){
