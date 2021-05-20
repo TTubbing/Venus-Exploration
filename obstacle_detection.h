@@ -17,7 +17,7 @@ int detect_sample(){
     US_high = US_high(); //return distance from high ultrasound sensor
     US_low = US_low(); //return distance from low ultrasound sensor
     
-    if(US_low < (US_high-error_margin) && US_low < max_distance && US_high < max_distance){ //if rock sample is detected
+    if(US_low < (US_high-error_margin) && US_low < max_distance){ //if rock sample is detected
       return angle; //return angle of rock sample
     }
   }
