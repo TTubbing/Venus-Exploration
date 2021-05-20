@@ -1,0 +1,90 @@
+int mountain_update = 300;
+int distance_to_mountain;
+int width = 10;
+in tout_of_sight;
+
+void mountain_function(int angle){
+  drive_to_mountain(angle);
+  angle = turn_away();
+  turn(angle);
+  USservo.write(0);
+  forward();
+  US_high = US_high();
+  US_low = US_low();
+  
+  while(US_high <= out_of_sight && US_high <= out_of_sight){
+    
+    delay(mountain_update);
+    
+    US_high = US_high();
+    US_low = US_low();
+  }
+  stopp(0, counter_right);
+}
+
+void drive_to_mountain(int angle){
+  
+  int old_US_high;
+  int old_US_low;
+  
+  turn(angle);
+  USservo.write(90);
+  forward();
+
+  old_US_high = US_high();
+  old_US_low = US_low();
+
+  US_high = US_high();
+  US_low = US_low();
+  
+  while(old_US_high >= US_high && old_US_low >= US_low && US_high >= distance_to_mountain && US_low >= distance_to_mountain){
+    
+    old_US_high = US_high();
+    old_US_low = US_low();
+    
+    delay(mountain_update);
+    
+    US_high = US_high();
+    US_low = US_low();
+  }
+
+  if(old_US_high <= US_high && old_US_low <= US_low && US_high <= distance_to_mountain){
+    stopp(0, counter_right);
+    angle = detect_track();
+    mountain_function(angle);
+  }
+  stopp(0, counter_right);
+}
+
+
+int detect_track(){
+   long US_high, US_low;
+  
+  for(int angle = 90-width; angle<=90+width; angle++){
+    USservo.write(angle); //turn 1 degree
+    
+    US_high = US_high(); //return distance from high ultrasound sensor
+    US_low = US_low(); //return distance from low ultrasound sensor
+    
+    if(US_low < (US_high+error_margin) && US_low > (US_high-error_margin) && US_low < max_distance && US_high < max_distance){ //if mountain is detected
+      return angle; //return angle of rock sample
+    }
+  }
+  return -1; //return -1 if no mountain
+}
+
+int turn_away(){
+  long US_high, US_low;
+  
+  for(int angle = 0; angle<=180; angle++){
+    USservo.write(angle); //turn 1 degree
+    
+    US_high = US_high(); //return distance from high ultrasound sensor
+    US_low = US_low(); //return distance from low ultrasound sensor
+    
+    if(US_low < (US_high+error_margin) && US_low > (US_high-error_margin) && US_low > distance_to_mountain && US_high > distance_to_mountain){ //if mountain is not detected
+      return angle; //return angle of rock sample
+    }
+  }
+  return -1; //return -1 if no mountain
+}
