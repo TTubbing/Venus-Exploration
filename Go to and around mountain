@@ -5,21 +5,7 @@ int out_of_sight; // minimal distance till mountain is out of sight
 
 void mountain_function(int angle){
   drive_to_mountain(angle);
-  angle = turn_away();
-  turn(angle);
-  USservo.write(0);
-  forward();
-  US_high = US_high();
-  US_low = US_low();
-  
-  while(US_high <= out_of_sight && US_high <= out_of_sight){
-    
-    delay(mountain_update);
-    
-    US_high = US_high();
-    US_low = US_low();
-  }
-  stopp(0, counter_right);
+  drive_past_mountain();
 }
 
 void drive_to_mountain(int angle){
@@ -87,4 +73,23 @@ int turn_away(){
     }
   }
   return -1; //return -1 if no mountain
+}
+
+void drive_past_mountain{ // function to drive parallel to the mountain till it is passed
+
+  angle = turn_away(); // find angle to drive parallel to mountain
+  turn(angle);
+  USservo.write(0); // turn US sensor towards moountain
+  forward();
+  US_high = US_high();
+  US_low = US_low();
+  
+  while(US_high <= out_of_sight && US_high <= out_of_sight){ // drive till you passed the mountain
+    
+    delay(mountain_update);
+    
+    US_high = US_high();
+    US_low = US_low();
+  }
+  stopp(0, counter_right);
 }
