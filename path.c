@@ -12,3 +12,7 @@ void addpath(int angle, int count){ //add path to path array
   path[pathlength].count = count; //add distance
   pathlength++; //increase length of path commands
 }
+
+void returnpath(){
+  for(
+}
