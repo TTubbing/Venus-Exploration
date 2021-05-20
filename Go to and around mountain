@@ -68,11 +68,11 @@ int turn_away(){
     US_high = US_high(); //return distance from high ultrasound sensor
     US_low = US_low(); //return distance from low ultrasound sensor
     
-    if(US_low < (US_high+error_margin) && US_low > (US_high-error_margin) && US_low > out_of_sight && US_high > out_of_sight){ //if mountain is not detected
+    if(US_low > out_of_sight && US_high > out_of_sight){ //if mountain is not detected
       return angle; //return angle of rock sample
     }
   }
-  return -1; //return -1 if no mountain
+  return -1;
 }
 
 void drive_past_mountain{ // function to drive parallel to the mountain till it is passed
