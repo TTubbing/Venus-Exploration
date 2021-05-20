@@ -12,6 +12,8 @@ void drive_to_mountain(int angle){
   
   int old_US_high; //declararion of older value US sensor
   int old_US_low;
+  int US_high;
+  int US_low;
   
   turn(angle); // turn robot towards the mountain
   USservo.write(90); // turn servo straight ahead towards mountain
@@ -75,7 +77,10 @@ int turn_away(){
   return -1;
 }
 
-void drive_past_mountain{ // function to drive parallel to the mountain till it is passed
+void drive_past_mountain(){ // function to drive parallel to the mountain till it is passed
+
+int US_high;
+int US_low;
 
   angle = turn_away(); // find angle to drive parallel to mountain
   turn(angle);
