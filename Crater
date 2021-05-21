@@ -1,0 +1,100 @@
+
+void crater_function(int angle){
+  drive_to_sample(angle);
+  avoid_crater();
+}
+
+void drive_to_sample(int angle){
+
+  long US_low;
+  long old_US_low;
+  int IR_1;
+  int IR_2;
+  
+  IR_1 = IR_1();
+  IR_2 = IR_2();
+
+  turn(angle);
+  USservo.write(90);
+
+  old_US_low = US_low();
+  US_low = US_low();
+  
+  forward();
+  while(IR_1 != 1 && IR_2 !=1 && old_US_low >= US_low){
+    
+    old_US_low = US_low();
+    delay(update_interval);
+    US_low = US_low();
+  }
+  if(old_US_low <= US_low){
+    stopp(0, counter_right);
+    angle = detect_track_crater();
+    crater_function(angle);
+  }
+  stopp(0, counter_right);
+}
+
+int detect_track_crater(){
+  long US_high, US_low;
+  
+  for(int angle = 90-widt; angle<=90+width; angle++){
+    USservo.write(angle); //turn 1 degree
+    
+    US_high = US_high(); //return distance from high ultrasound sensor
+    US_low = US_low(); //return distance from low ultrasound sensor
+    
+    if(US_low < (US_high-error_margin) && US_low < max_distance){ //if rock sample is detected
+      return angle; //return angle of rock sample
+    }
+  }
+  return -1; //return -1 if no rock sample 
+}
+
+void avoid_crater(){
+  angle = 180;
+  turn(180);
+  forward();
+  delay(1000); //for 10 cm
+  stopp(0, counter_right);
+  turn(-90);
+  forward();
+  delay(4000); //parallel to crater
+  stopp(0, counter_right);
+  turn(-90);
+
+  forward();
+  while(angle != 90){
+    angle = detect_sample;
+    delay(update_interval);
+  }
+  turn(angle);
+  USservo.write(90);
+  final_run();
+}
+
+void final_run(){
+
+  long US_low;
+  long old_US_low;
+
+  old_US_low = US_low();
+  US_low = US_low();
+    
+    while(old_US_low >= US_low && US_low >= 15){
+    
+    old_US_low = US_low();
+    delay(update_interval);
+    US_low = US_low();
+  }
+  if(old_US_low <= US_low){
+    stopp(0, counter_right);
+    angle = detect_track_crater();
+    turn(angle);
+    USservo.write(90);
+  }
+  if(US_low <= 15){
+    pick_up_rock;
+  }
+  stopp(0, counter_right);
+}
