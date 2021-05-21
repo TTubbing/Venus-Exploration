@@ -11,8 +11,9 @@ void setup() {
 }
 
 void loop() {
+  distance3 = Distance3pin(); //distance 3 represents the distance from the object to the lower sensor !this order is fixed, 3-pin must go first!
   distance4 = Distance4pin(); //distance 4 represents the distance from the object to the upper sensor
-  distance3 = Distance3pin(); //distance 3 represents the distance from the object to the lower sensor
+  
   Serial.println("distance 4pin "); //serial monitor display -> just for now
   Serial.println(distance4);
   Serial.println(" distance 3pin "); //serial monitor display -> just for now
