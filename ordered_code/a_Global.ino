@@ -89,3 +89,9 @@ void drive_to_mountain(int angle);
 void drive_past_mountain();
 int detect_track();
 int turn_away();
+int detect_sample();
+int detect_mountain();
+//path memory
+void addpath(int angle, int count);
+void initialise_path();
+void returnpath();
