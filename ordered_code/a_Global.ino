@@ -13,6 +13,8 @@
 #define motorLeft 12
 #define motorRight 13
 #define USservo 11
+#define echoPin 2 // attach pin D2 Arduino to pin Echo of HC-SR04
+#define trigPin 3 //attach pin D3 Arduino to pin Trig of HC-SR04
 
 //global variables
 //communication
@@ -68,6 +70,10 @@ typedef struct movement { //Structure that holds each movement command
 const int maxpath = 20;
 int pathlength = 0;
 movement path[maxpath]; //path array
+
+//ultrasound
+const int pingPin = 9; //pingpin declaration (on input 9)
+long distance4, distance3; //distances declaration, distance 4 is the distance from the object to the upper sensor and distance 3 is the distance from the object to the lower sensor
 
 //declare functions
 //communication
