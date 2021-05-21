@@ -9,4 +9,13 @@ void setup(){
   pinMode(encoderRight, INPUT_PULLUP);
   enableInterrupt(encoderRight, isrRight, RISING);
   
+  //setup gripper servo
+  gripperservo.attach(GripperservoPin);
+  
+  //setup movement
+  LeftmotorServo.attach(motorLeft);
+  RightmotorServo.attach(motorRight);
+  
+  //setup ultrasonic servo
+  USservo.attach(USservo);
 }
