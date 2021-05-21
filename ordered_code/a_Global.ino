@@ -3,10 +3,13 @@
 #include <SoftwareSerial.h>
 //encoders
 #include <EnableInterrupt.h>
+//servos
+#include <Servo.h>
 
 //defining variables
-#define encoderLeft = 7;
-#define encoderRight = 8;
+#define encoderLeft 7
+#define encoderRight 8
+#define GripperservoPin 10
 
 //global variables
 //communication
@@ -27,3 +30,8 @@ volatile int count_right = 0;
 float diameter_wheel = 6.5;
 float distance_left, distance_right = 0;
 const float Pi = 3.14159;
+//gripper servo
+int distance_for_gripper = 10;
+int timeturn = 2000; // Total time needed to turn 360 degree
+int correction = -1; // Correction for the motors
+Servo gripperservo;
