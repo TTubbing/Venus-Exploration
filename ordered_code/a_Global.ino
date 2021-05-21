@@ -10,6 +10,8 @@
 #define encoderLeft 7
 #define encoderRight 8
 #define GripperservoPin 10
+#define motorLeft 12
+#define motorRight 13
 
 //global variables
 //communication
@@ -35,3 +37,8 @@ int distance_for_gripper = 10;
 int timeturn = 2000; // Total time needed to turn 360 degree
 int correction = -1; // Correction for the motors
 Servo gripperservo;
+//basic movement
+int timeturn = 2000; // Total time needed to turn 360 degree
+int correction = -1; // Correction for the motors
+Servo LeftmotorServo; // Define servos
+Servo RightmotorServo;
