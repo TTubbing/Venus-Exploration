@@ -13,7 +13,6 @@
 #define motorLeft 12
 #define motorRight 13
 #define USservo 11
-
 //global variables
 //communication
 int state;
@@ -45,3 +44,6 @@ int timeturn = 2000; // Total time needed to turn 360 degree
 int correction = -1; // Correction for the motors
 Servo LeftmotorServo; // Define servos
 Servo RightmotorServo;
+//obstacle detection
+const int error_margin = 2;
+const int max_distance = 300;
