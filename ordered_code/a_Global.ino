@@ -47,6 +47,10 @@ Servo RightmotorServo;
 //obstacle detection
 const int error_margin = 2;
 const int max_distance = 300;
+int update_interval = 300; // interval between measurements
+int distance_to_mountain; // ditance to the mountain
+int width = 10; // width of search area to find the montain again
+int out_of_sight; // minimal distance till mountain is out of sight
 //path memory
 typedef struct movement { //Structure that holds each movement command
   int angle; //angle of movement
@@ -61,4 +65,14 @@ movement path[maxpath]; //path array
 //communication
 void send_data(int data);
 void receive_data();
-//
+//encoders
+void reset_count();
+void calculate_distance();
+void isrLeft();
+void isrRight();
+//obstacle detection
+void mountain_function();
+void drive_to_mountain();
+void drive_past_mountain();
+int detect_track();
+int turn_away();
