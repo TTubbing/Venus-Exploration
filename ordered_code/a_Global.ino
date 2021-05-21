@@ -74,9 +74,18 @@ void isrRight();
 void GripperOpen();
 void GripperClose();
 void pick_up_rock();
+//ultrasonic servo
+void ServoToFront();
+void ServoToRight();
+void ServoToLeft();
+//basic movement
+void forward();
+void backward();
+void stopp(int angle, int count);
+void turn(int angle);
 //obstacle detection
-void mountain_function();
-void drive_to_mountain();
+void mountain_function(int angle);
+void drive_to_mountain(int angle);
 void drive_past_mountain();
 int detect_track();
 int turn_away();
