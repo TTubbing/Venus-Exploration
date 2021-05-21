@@ -1,9 +1,9 @@
 #include <Servo.h>
-Servo myservo;
-#define servoPin 11
+Servo USservo;
+#define USservo 11
 
 void setup() {
-  myservo.attach(servoPin);
+  USservo.attach(USservo);
 }
 
 void loop() {
@@ -16,13 +16,13 @@ void loop() {
 }
 
 void ServoToFront(){
-  myservo.write(90);
+  USservo.write(90);
 }
 
 void ServoToRight(){
-  myservo.write(0);
+  USservo.write(0);
 }
 
 void ServoToLeft(){
-  myservo.write(180);
+  USservo.write(180);
 }
