@@ -70,6 +70,10 @@ void reset_count();
 void calculate_distance();
 void isrLeft();
 void isrRight();
+//gripper servo
+void GripperOpen();
+void GripperClose();
+void pick_up_rock();
 //obstacle detection
 void mountain_function();
 void drive_to_mountain();
