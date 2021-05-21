@@ -109,3 +109,7 @@ int detect_mountain();
 void addpath(int angle, int count);
 void initialise_path();
 void returnpath();
+//ultrasound
+long US_high();
+long US_low();
+long microsecondsToCentimeters(long microseconds);
