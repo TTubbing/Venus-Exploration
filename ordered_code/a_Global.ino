@@ -28,24 +28,29 @@ int nr_not_at_lab = 0;
 int nr_at_lab = 1;
 int nr_no_rock_found = 2;
 int nr_rock_found = 3;
+
 //encoders
 volatile int count_left = 0;
 volatile int count_right = 0;
 float diameter_wheel = 6.5;
 float distance_left, distance_right = 0;
 const float Pi = 3.14159;
+
 //gripper servo
 int distance_for_gripper = 10;
 int timeturn = 2000; // Total time needed to turn 360 degree
 int correction = -1; // Correction for the motors
 Servo gripperservo;
+
 //ultrasonic servo
 Servo USservo
+
 //basic movement
 int timeturn = 2000; // Total time needed to turn 360 degree
 int correction = -1; // Correction for the motors
 Servo LeftmotorServo; // Define servos
 Servo RightmotorServo;
+
 //obstacle detection
 const int error_margin = 2;
 const int max_distance = 300;
@@ -53,6 +58,7 @@ int update_interval = 300; // interval between measurements
 int distance_to_mountain; // ditance to the mountain
 int width = 10; // width of search area to find the montain again
 int out_of_sight; // minimal distance till mountain is out of sight
+
 //path memory
 typedef struct movement { //Structure that holds each movement command
   int angle; //angle of movement
