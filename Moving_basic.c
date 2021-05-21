@@ -1,34 +1,34 @@
 #include <Servo.h>                           
 
-int pinLeft = 12; // Digital pin for the left motor
-int pinRight = 13; // Digital pin for the right motor
+int motorLeft = 12; // Digital pin for the left motor
+int motorRight = 13; // Digital pin for the right motor
 
 int timeturn = 2000; // Total time needed to turn 360 degree
 int correction = -1; // Correction for the motors
 
-Servo servoLeft; // Define servos
-Servo servoRight;
+Servo LeftmotorServo; // Define servos
+Servo RightmotorServo;
 
 void setup_movement() {
-  servoLeft.attach(pinLeft);
-  servoRight.attach(pinRight);
+  LeftmotorServo.attach(motorLeft);
+  RightmotorServo.attach(motorRight);
 }
 
 void forward(){
   reset_count();
-  servoLeft.write(180); // Send signal to servo
-  servoRight.write(0); // 0 fast backwards, 90 stop, 180 fast forwards.
+  LeftmotorServo.write(180); // Send signal to servo
+  RightmotorServo.write(0); // 0 fast backwards, 90 stop, 180 fast forwards.
 }
 
 void backward(){
   reset_count();
-  servoLeft.write(0); // Left is 0 and right 180 because of the way installed
-  servoRight.write(180);
+  LeftmotorServo.write(0); // Left is 0 and right 180 because of the way installed
+  RightmotorServo.write(180);
 }
 
 void stopp(int angle, int count){
-  servoLeft.write(90+correction); // Correction is needed to calibrate stop point
-  servoRight.write(90+correction);
+  LeftmotorServo.write(90+correction); // Correction is needed to calibrate stop point
+  RightmotorServo.write(90+correction);
   addpath(angle, count); //Add angle and distance to path
   reset_count(); //Set encoder values to 0
 }
@@ -40,15 +40,15 @@ void turn(int angle){
   milliseconds = (360/angle)*timeturn; // seconds to turn the given angle
   
   if(angle>0){
-    servoLeft.write(180);
-    servoRight.write(180);
+    LeftmotorServo.write(180);
+    RightmotorServo.write(180);
     delay(milliseconds); // During the delay the motors keep running till next line
   }
   
   if(angle<0){
     milliseconds = (angle/360)*timeturn;
-    servoLeft.write(0);
-    servoRight.write(0);
+    LeftmotorServo.write(0);
+    RightmotorServo.write(0);
     delay(milliseconds); //During the delay the motors keep running till next line
   }
   reset_count();
