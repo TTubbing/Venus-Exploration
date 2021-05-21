@@ -18,4 +18,8 @@ void setup(){
   
   //setup ultrasonic servo
   USservo.attach(USservo);
+  
+  //setup ultrasonic sensor
+  pinMode(trigPin, OUTPUT); // Sets the trigPin as an OUTPUT
+  pinMode(echoPin, INPUT); // Sets the echoPin as an INPUT
 }
