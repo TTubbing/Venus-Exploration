@@ -47,3 +47,13 @@ Servo RightmotorServo;
 //obstacle detection
 const int error_margin = 2;
 const int max_distance = 300;
+//path memory
+
+typedef struct movement { //Structure that holds each movement command
+  int angle; //angle of movement
+  int count; //distance of movement
+}movement;
+
+const int maxpath = 20;
+int pathlength = 0;
+movement path[maxpath]; //path array
