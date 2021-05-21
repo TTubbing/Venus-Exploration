@@ -17,6 +17,7 @@
 //global variables
 //communication
 int state;
+SoftwareSerial xbee(0,1);
 //basic boolean operators to determine the state of each robot
 boolean at_lab_other_robot = false;
 boolean rock_found_other_robot = false;
