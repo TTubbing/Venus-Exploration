@@ -19,7 +19,7 @@ void loop() {
   Serial.println(" distance 3pin "); //serial monitor display -> just for now
   Serial.println(distance3);
 }
-long Distance4pin(){
+long US_high(){
   long duration, cm; //variable declaration for duration and distance (cm)
   
   digitalWrite(trigPin, LOW); //trigpin is being set on low, soundwave is about to be sent out
@@ -33,7 +33,7 @@ long Distance4pin(){
   cm = microsecondsToCentimeters(duration); //the duration is being send to another function, for the distance to be calculated
   return cm; //this is the final distance that can be used in the main loop
 }
-long Distance3pin(){
+long US_low(){
   long duration, cm;  //variable declaration for duration and distance (cm)
 
   pinMode(pingPin, OUTPUT); //pingpin is being set to output, so that it can send out a soundwave
