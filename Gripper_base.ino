@@ -15,8 +15,7 @@ int correction = -1; // Correction for the motors
 Servo gripperservo;
 
 void setup() {
-  myservo.attach(GripperservoPin);
-  servoLeft.attach(pinLeft);
+  gripperservo.attach(GripperservoPin);
 }
 
 void GripperOpen(){
