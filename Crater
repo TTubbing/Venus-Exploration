@@ -2,6 +2,7 @@ int distance_to_sample = 10;
 
 void crater_function(int angle){
   drive_to_sample(angle);
+  return_sample();
 }
 
 void drive_to_sample(int angle){
@@ -35,6 +36,8 @@ void drive_to_sample(int angle){
   }
   if(IR_1 == 1 || IR_2 ==1){
   avoid_crater();
+  drive_to_sample();
+  return;
   }
   stopp(0, counter_right);
 }
@@ -65,42 +68,5 @@ void avoid_crater(){
   forward();
   delay(4000); //parallel to crater
   stopp(0, counter_right);
-  turn(-90);
-  
-  angle = detect_sample;
-  while(angle != 90){
-    forward();
-    delay(update_interval);
-    stopp(0, counter_right);
-    angle = detect_sample;
-  }
-  turn(angle);
-  USservo.write(90);
-  final_run();
-}
-
-void final_run(){
-
-  long US_low;
-  long old_US_low;
-
-  old_US_low = US_low();
-  US_low = US_low();
-    
-    while(old_US_low >= US_low && US_low >= 15){
-    
-    old_US_low = US_low();
-    delay(update_interval);
-    US_low = US_low();
-  }
-  if(old_US_low <= US_low){
-    stopp(0, counter_right);
-    angle = detect_track_crater();
-    turn(angle);
-    USservo.write(90);
-  }
-  if(US_low <= 15){
-    pick_up_rock;
-  }
-  stopp(0, counter_right);
+  turn(-90)
 }
