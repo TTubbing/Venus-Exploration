@@ -8,7 +8,7 @@ void setup_USservo() {
   USservo.attach(servoPin);
 }
 
-int detect_sample(int angle){
+int detect_sample(){
   long US_high, US_low;
   
   for(int angle = 0; angle<=180; angle++){
@@ -24,7 +24,7 @@ int detect_sample(int angle){
   return -1; //return -1 if no rock sample 
 }
 
-int detect_mountain(int angle){
+int detect_mountain(){
    long US_high, US_low;
   
   for(int angle = 0; angle<=180; angle++){
