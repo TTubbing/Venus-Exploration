@@ -36,7 +36,8 @@ void drive_to_sample(int angle){
   }
   if(IR_1 == 1 || IR_2 ==1){
   avoid_crater();
-  drive_to_sample();
+  angle = detect_sample();
+  drive_to_sample(angle);
   return;
   }
   stopp(0, counter_right);
