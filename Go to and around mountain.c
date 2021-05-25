@@ -2,6 +2,7 @@ int update_interval = 300; // interval between measurements
 int distance_to_mountain; // ditance to the mountain
 int width = 10; // width of search area to find the montain again
 int out_of_sight; // minimal distance till mountain is out of sight
+int error_driving_parallel_to_mountain = 4;
 
 void mountain_function(int angle){
   drive_to_mountain(angle);
@@ -97,7 +98,7 @@ long US_low;
   US_high = US_high();
   US_low = US_low();
   
-  while(US_high <= out_of_sight && US_low <= out_of_sight){ // drive till you passed the mountain
+  while(US_high <= out_of_sight+error_driving_parallel_to_mountain && US_low <= out_of_sight+error_driving_parallel_to_mountain){ // drive till you passed the mountain
     
     delay(update_interval);
     
