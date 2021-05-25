@@ -46,6 +46,7 @@ void drive_to_mountain(int angle){
     stopp(0, counter_right); // stopp and save distance travveled
     angle = detect_track(); // search turn angle to get back on track
     mountain_function(angle); // start again at the beginning
+    return;
   }
   if(IR_1 == 1 || IR_2 ==1){
     avoid_crater();
