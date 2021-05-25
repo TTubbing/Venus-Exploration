@@ -66,12 +66,13 @@ void avoid_crater(){
   delay(4000); //parallel to crater
   stopp(0, counter_right);
   turn(-90);
-
-  forward();
+  
   angle = detect_sample;
   while(angle != 90){
-    angle = detect_sample;
+    forward();
     delay(update_interval);
+    stopp(0, counter_right);
+    angle = detect_sample;
   }
   turn(angle);
   USservo.write(90);
