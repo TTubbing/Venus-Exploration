@@ -50,6 +50,8 @@ void drive_to_mountain(int angle){
   }
   if(IR_1 == 1 || IR_2 ==1){
     avoid_crater();
+    angle = detect_mountain();
+    drive_to_mountain(angle);
   }
   stopp(0, counter_right); // distance is lower or equal to minimal distance to mountain so stop and save distance travelled
 }
