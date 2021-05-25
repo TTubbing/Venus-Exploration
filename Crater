@@ -1,10 +1,5 @@
 int distance_to_sample = 10;
 
-void crater_function(int angle){
-  drive_to_sample(angle);
-  return_sample();
-}
-
 void drive_to_sample(int angle){
 
   long US_low;
@@ -31,7 +26,7 @@ void drive_to_sample(int angle){
   if(old_US_low <= US_low){
     stopp(0, counter_right);
     angle = detect_track_crater();
-    crater_function(angle);
+    drive_to_sample(angle);
     return;
   }
   if(IR_1 == 1 || IR_2 ==1){
