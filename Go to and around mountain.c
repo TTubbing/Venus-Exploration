@@ -25,21 +25,21 @@ void drive_to_mountain(int angle){
   IR_1 = IR_1();
   IR_2 = IR_2();
 
-  old_US_high = US_high();
   old_US_low = US_low();
+  old_US_high = US_high();
 
-  US_high = US_high();
   US_low = US_low();
+  US_high = US_high();
   
   while(old_US_high >= US_high && old_US_low >= US_low && US_high >= distance_to_mountain && US_low >= distance_to_mountain && IR_1 ! = 1 && IR_2 !=1){ // while the distance does not increase and the distance to the mountainis not to close drive forwards
     
-    old_US_high = US_high();
     old_US_low = US_low();
+    old_US_high = US_high();
     
     delay(update_interval);
     
-    US_high = US_high();
     US_low = US_low();
+    US_high = US_high();
   }
 
   if(old_US_high <= US_high && old_US_low <= US_low){ // if the older value of the US sensor is smaller than the new one it means it looks past the mountain and is on the wrong path.
@@ -61,8 +61,8 @@ int detect_track(){
   for(int angle = 90-width; angle<=90+width; angle++){ // US servo turns in range of 2 times width to find mountain
     USservo.write(angle); //turn 1 degree
     
-    US_high = US_high(); //return distance from high ultrasound sensor
     US_low = US_low(); //return distance from low ultrasound sensor
+    US_high = US_high(); //return distance from high ultrasound sensor
     
     if(US_low < (US_high+error_margin) && US_low > (US_high-error_margin) && US_low < max_distance && US_high < max_distance){ //if mountain is detected
       return angle; //return angle of rock sample
@@ -77,8 +77,8 @@ int turn_away(){
   for(int angle = 0; angle<=180; angle++){
     USservo.write(angle); //turn 1 degree
     
-    US_high = US_high(); //return distance from high ultrasound sensor
     US_low = US_low(); //return distance from low ultrasound sensor
+    US_high = US_high(); //return distance from high ultrasound sensor
     
     if(US_low > out_of_sight && US_high > out_of_sight){ //if mountain is not detected
       return angle; //return angle of rock sample
@@ -96,15 +96,15 @@ long US_low;
   turn(angle);
   USservo.write(0); // turn US sensor towards moountain
   forward();
-  US_high = US_high();
   US_low = US_low();
+  US_high = US_high();
   
   while(US_high <= out_of_sight+error_driving_parallel_to_mountain && US_low <= out_of_sight+error_driving_parallel_to_mountain){ // drive till you passed the mountain
     
     delay(update_interval);
     
-    US_high = US_high();
     US_low = US_low();
+    US_high = US_high();
   }
   stopp(0, counter_right);
 }
