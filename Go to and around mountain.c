@@ -14,10 +14,15 @@ void drive_to_mountain(int angle){
   long old_US_low;
   long US_high;
   long US_low;
+  int IR_1;
+  int IR_2;
   
   turn(angle); // turn robot towards the mountain
   USservo.write(90); // turn servo straight ahead towards mountain
   forward();
+  
+  IR_1 = IR_1();
+  IR_2 = IR_2();
 
   old_US_high = US_high();
   old_US_low = US_low();
@@ -25,7 +30,7 @@ void drive_to_mountain(int angle){
   US_high = US_high();
   US_low = US_low();
   
-  while(old_US_high >= US_high && old_US_low >= US_low && US_high >= distance_to_mountain && US_low >= distance_to_mountain){ // while the distance does not increase and the distance to the mountainis not to close drive forwards
+  while(old_US_high >= US_high && old_US_low >= US_low && US_high >= distance_to_mountain && US_low >= distance_to_mountain && IR_1 ! = 1 && IR_2 !=1){ // while the distance does not increase and the distance to the mountainis not to close drive forwards
     
     old_US_high = US_high();
     old_US_low = US_low();
@@ -36,10 +41,13 @@ void drive_to_mountain(int angle){
     US_low = US_low();
   }
 
-  if(old_US_high <= US_high && old_US_low <= US_low){ // if the older value of the US sensor is smaller than the new oneit means it looks past the mountain and is on the wrong path.
+  if(old_US_high <= US_high && old_US_low <= US_low){ // if the older value of the US sensor is smaller than the new one it means it looks past the mountain and is on the wrong path.
     stopp(0, counter_right); // stopp and save distance travveled
     angle = detect_track(); // search turn angle to get back on track
     mountain_function(angle); // start again at the beginning
+  }
+  if(IR_1 == 1 || IR_2 ==1){
+    avoid_crater();
   }
   stopp(0, counter_right); // distance is lower or equal to minimal distance to mountain so stop and save distance travelled
 }
