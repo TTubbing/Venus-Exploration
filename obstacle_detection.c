@@ -18,8 +18,10 @@ int detect_sample(){
     US_high = US_high(); //return distance from high ultrasound sensor
     
     if(US_low < (US_high-error_margin) && US_low < max_distance){ //if rock sample is detected
+      USservo.write(90);
       return angle; //return angle of rock sample
     }
+    USservo.write(90);
   }
   return -1; //return -1 if no rock sample 
 }
@@ -34,8 +36,10 @@ int detect_mountain(){
     US_high = US_high(); //return distance from high ultrasound sensor
     
     if(US_low < (US_high+error_margin) && US_low > (US_high-error_margin) && US_low < max_distance && US_high < max_distance){ //if mountain is detected
+      USservo.write(90);
       return angle; //return angle of rock sample
     }
+    USservo.write(90);
   }
   return -1; //return -1 if no mountain
 }
