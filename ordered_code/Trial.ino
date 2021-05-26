@@ -132,12 +132,12 @@ void stopp(int angle, int count){
 }
 
 void turn(int angle){
-  
+  angle = angle-90;
   int milliseconds;
   
   milliseconds = (360/angle)*timeturn; // seconds to turn the given angle
   
-  if(angle>0){
+  if(angle>90){
     LeftmotorServo.write(180);
     RightmotorServo.write(180);
     delay(milliseconds); // During the delay the motors keep running till next line
@@ -181,28 +181,6 @@ void isrRight(){
     rounds_right++;
     interruptCountRight = 1;
    }
-}
-
-
-
-void turn(float angle){
-  int milliseconds = (((float)angle/(float) 360))*2000; // seconds to turn the given angle
-  Serial.print("milliseconds: ");
-  Serial.println(milliseconds);
-  if(angle>0){
-    LeftmotorServo.write(180);
-    RightmotorServo.write(180);
-    delay(milliseconds); // During the delay the motors keep running till next line
-  }
-  
-  if(angle<0){
-    LeftmotorServo.write(0);
-    RightmotorServo.write(0);
-    delay(milliseconds); //During the delay the motors keep running till next line
-  }
-  
-  stopp(0,0); //stop and add angle to path
-  delay(1000);
 }
 
 // In the loop we just display interruptCount. The value is updated by the interrupt routine.
