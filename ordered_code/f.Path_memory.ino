@@ -19,9 +19,14 @@ void isrRight(){
 }
 
 void addpath(int angle, int count){ //add path to path array
+	if(pathlength >= 20){ //if array is full return
+		returnpath();
+	}
+	else{
 	  path[pathlength].angle = angle; //add angle
 	  path[pathlength].count = count; //add distance
 	  pathlength++; //increase length of path commands
+	}
 	}
 	
 void initialise_path(){ //initialise all values in path array to 0
@@ -29,6 +34,7 @@ void initialise_path(){ //initialise all values in path array to 0
         path[i].angle = 0;
         path[i].count = 0;
     }
+    pathlength = 0;
 }
 
 void returnpath(){
@@ -38,4 +44,5 @@ void returnpath(){
         forward(path[place].count);//drive forward amount in path array
         turn((path[place].angle)*-1);//drive opposite angle back
     }
+    initialise_path(); //set all values in path array to 0
 }
