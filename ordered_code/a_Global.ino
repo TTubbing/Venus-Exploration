@@ -60,6 +60,7 @@ int update_interval = 300; // interval between measurements
 int distance_to_mountain; // ditance to the mountain
 int width = 10; // width of search area to find the montain again
 int out_of_sight; // minimal distance till mountain is out of sight
+int distance_to_sample = 10;
 
 //path memory
 typedef struct movement { //Structure that holds each movement command
