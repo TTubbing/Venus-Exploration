@@ -48,8 +48,10 @@ int detect_track_crater(){
     US_high = US_high(); //return distance from high ultrasound sensor
     
     if(US_low < (US_high-error_margin) && US_low < max_distance){ //if rock sample is detected
+      USservo.write(90);
       return angle; //return angle of rock sample
     }
+    USservo.write(90);
   }
   return -1; //return -1 if no rock sample 
 }
