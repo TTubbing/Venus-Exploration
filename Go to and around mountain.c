@@ -40,6 +40,9 @@ void drive_to_mountain(int angle){
     
     US_low = US_low();
     US_high = US_high();
+    
+    IR_1 = IR_1();
+    IR_2 = IR_2();
   }
 
   if(old_US_high <= US_high && old_US_low <= US_low){ // if the older value of the US sensor is smaller than the new one it means it looks past the mountain and is on the wrong path.
