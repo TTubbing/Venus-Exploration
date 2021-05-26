@@ -14,36 +14,18 @@ int encoderRight = 8;
 volatile int count_left = 0;
 volatile int count_right = 0;
 float diameter_wheel = 6.5;
-float distance_left, distance_right = 0;
+float distance_left = 0;
+float distance_right = 0;
 const float Pi = 3.14159;
 
-void setup_encoders() {
-  Serial.begin(115200);
-  pinMode(encoderLeft, INPUT_PULLUP);
-  enableInterrupt(encoderLeft, isrLeft, RISING);
-  pinMode(encoderRight, INPUT_PULLUP);
-  enableInterrupt(encoderRight, isrRight, RISING);
-}
+typedef struct movement { //Structure that holds each movement command
+  int angle; //angle of movement
+  int count; //distance of movement
+}movement;
 
-void reset_count(){ //reset distance count
-  count_left = 0;
-  count_right = 0;
-}
-
-void calculate_distance(){ //calculate distance travelled
-  distance_left = (count_left/9)*Pi*diameter_wheel);
-  distance_right = (count_right/9)*Pi*diameter_wheel);
-}
-
-//attach function to get rounds for left encoder
-void isrLeft(){
-  count_left++;
-}
-
-//attach function to get rounds for right encoder
-void isrRight(){
-  count_right++;
-}
+const int maxpath = 20;
+int pathlength = 0;
+movement path[maxpath]; //path array
 
 int update_interval = 300; // interval between measurements
 int distance_to_mountain = 10; // ditance to the mountain
@@ -55,9 +37,6 @@ volatile uint16_t interruptCountLeft = 0; // The count will go back to 0 after h
 volatile uint16_t interruptCountRight = 0; // The count will go back to 0 after hitting 65535.
 volatile uint16_t rounds_left = 0; // The count will go back to 0 after hitting 65535.
 volatile uint16_t rounds_right = 0; // The count will go back to 0 after hitting 65535.
-
-int encoderLeft = 7;
-int encoderRight = 8;
 
 int motorLeft = 12; // Digital pin for the left motor
 int motorRight = 13; // Digital pin for the right motor
@@ -79,6 +58,54 @@ void setup() {
   pinMode(encoderRight, INPUT_PULLUP);
   enableInterrupt(encoderRight, isrRight, RISING);
 }                         
+
+void setup_encoders() {
+  Serial.begin(115200);
+  pinMode(encoderLeft, INPUT_PULLUP);
+  enableInterrupt(encoderLeft, isrLeft, RISING);
+  pinMode(encoderRight, INPUT_PULLUP);
+  enableInterrupt(encoderRight, isrRight, RISING);
+}
+
+void reset_count(){ //reset distance count
+  count_left = 0;
+  count_right = 0;
+}
+
+void calculate_distance(){ 
+  //calculate distance travelled
+  distance_left = ((count_left/9)*Pi*diameter_wheel);
+  distance_right = ((count_right/9)*Pi*diameter_wheel);
+}
+
+void addpath(int angle, int count){ //add path to path array
+  if(pathlength >= 20){ //if array is full return
+    //returnpath();
+  }
+  else{
+    path[pathlength].angle = angle; //add angle
+    path[pathlength].count = count; //add distance
+    pathlength++; //increase length of path commands
+  }
+  }
+  
+void initialise_path(){ //initialise all values in path array to 0
+    for(int i = 0; i < maxpath; i++){
+        path[i].angle = 0;
+        path[i].count = 0;
+    }
+    pathlength = 0;
+}
+
+/*void returnpath(){
+    turn(180); //turn around
+    
+    for(int place = maxpath-1; place >= 0; place--){//loop backwards through path array
+        forward(path[place].count);//drive forward amount in path array
+        turn((path[place].angle)*-1);//drive opposite angle back
+    }
+    initialise_path(); //set all values in path array to 0
+}*/
 
 void setup_movement() {
   LeftmotorServo.attach(motorLeft);
@@ -163,44 +190,22 @@ void turn(float angle){
   Serial.print("milliseconds: ");
   Serial.println(milliseconds);
   if(angle>0){
-    servoLeft.write(180);
+    LeftmotorServo.write(180);
     RightmotorServo.write(180);
     delay(milliseconds); // During the delay the motors keep running till next line
   }
   
   if(angle<0){
-    servoLeft.write(0);
+    LeftmotorServo.write(0);
     RightmotorServo.write(0);
     delay(milliseconds); //During the delay the motors keep running till next line
   }
   
-  stopp(); //stop and add angle to path
+  stopp(0,0); //stop and add angle to path
   delay(1000);
 }
 
 // In the loop we just display interruptCount. The value is updated by the interrupt routine.
-void loop() {
-  while(rounds_left <= 1){
-//    Serial.print("Forward: ");
-//    Serial.println(rounds_left, DEC);
-    forward();
-  }
-  stopp();
-  delay(1000);
-  rounds_left = 0;
-  while(rounds_left <= 1){
-//    Serial.print("Backward: ");
-//    Serial.println(rounds_left, DEC);
-    backward();
-  }
-  stopp();
-  delay(1000);
-  rounds_left = 0;
-  Serial.print("Left: ");
-  Serial.println(interruptCountLeft, DEC);
-  Serial.print("Right: ");
-  Serial.println(interruptCountRight, DEC);
-}
 
 long US_high(){
   long duration, cm; //variable declaration for duration and distance (cm)
@@ -299,17 +304,17 @@ void drive_to_mountain(int angle){
   }
 
   if(old_US_High <= US_High && old_US_Low <= US_Low){ // if the older value of the US sensor is smaller than the new one it means it looks past the mountain and is on the wrong path.
-    stopp(0, counter_right); // stopp and save distance travveled
+    stopp(0, count_right); // stopp and save distance travveled
     angle = detect_track(); // search turn angle to get back on track
     mountain_function(angle); // start again at the beginning
     return;
   }
-  if(IR_1 == 1 || IR_2 ==1){
+  /*if(IR_1 == 1 || IR_2 ==1){
     avoid_crater();
     angle = detect_mountain();
     drive_to_mountain(angle);
-  }
-  stopp(0, counter_right); // distance is lower or equal to minimal distance to mountain so stop and save distance travelled
+  }*/
+  stopp(0, count_right); // distance is lower or equal to minimal distance to mountain so stop and save distance travelled
 }
 
 
@@ -351,8 +356,7 @@ void drive_past_mountain(){ // function to drive parallel to the mountain till i
 
 long US_High;
 long US_Low;
-
-  angle = turn_away(); // find angle to drive parallel to mountain
+  int angle = turn_away(); // find angle to drive parallel to mountain
   turn(angle);
   USservo.write(0); // turn US sensor towards moountain
   forward();
@@ -366,6 +370,10 @@ long US_Low;
     US_Low = US_low();
     US_High = US_high();
   }
-  stopp(0, counter_right);
+  stopp(0, count_right);
 }
 
+void loop(){
+  int angle = detect_mountain();
+  mountain_function(angle);
+}
