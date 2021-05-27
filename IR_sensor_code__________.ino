@@ -15,4 +15,12 @@ void loop() {
 Serial.print(sensorValue);
 Serial.print("\n");
 delay(50);
+
+if (sensorValue > 550) {
+  Serial.print("black_tape\n");
+}
+else {
+  Serial.print("Venus_surface\n");
+}
+
 }
