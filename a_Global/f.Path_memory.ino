@@ -8,6 +8,15 @@ void calculate_distance(){ //calculate distance travelled
   distance_right = ((count_right/9)*Pi*diameter_wheel);
 }
 
+// getter for rounds by dividing by 8 in a non decimal data type
+int getRoundsLeft(){
+  return (int) count_left / (int) 8;
+}
+
+int getRoundsRight(){
+  return (int) count_right / (int) 8;
+}
+
 //attach function to get rounds for left encoder
 void isrLeft(){
   count_left++;
