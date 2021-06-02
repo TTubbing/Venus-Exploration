@@ -42,7 +42,9 @@ void returnpath(){
     
     for(int place = pathlength-1; place >= 0; place--){//loop backwards through path array
         int count_now = count_right;
-        forward();//drive forward amount in path array
+        forward(); //drive forward amount in path array
+        while(count_right < count_now + path[place].count){};
+        stoppp();
         turn((path[place].angle)*-1);//drive opposite angle back
     }
     initialise_path(); //set all values in path array to 0
