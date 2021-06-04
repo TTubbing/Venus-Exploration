@@ -1,0 +1,127 @@
+#include <EnableInterrupt.h>
+#include <Servo.h>
+
+// Infrared
+const int pinInfraredLeft = 2;
+const int pinInfraredRight = 3;
+
+// Movement variables
+Servo servoLeftWheel;
+Servo servoRightWheel;
+const int pinLeftWheel = 12;
+const int pinRightWheel = 13;
+const int stopCalibration = 93;
+const int turnTimeCalibration = 2000;
+
+// Gripperkit
+Servo servoGripperkit;
+const int pinGripperkit = 10;
+
+// Encoder variables
+const int encoderPinLeftWheel = 7;
+const int encoderPinRightWheel = 8;
+volatile uint16_t encoderCountLeftWheel = 0;
+volatile uint16_t encoderCountRightWheel = 0;
+
+// ISR for the amount of turns for the left wheel
+void isrCountLeftWheel(){
+  encoderCountLeftWheel++;
+}
+
+// ISR for the amount of turns for the right wheel
+void isrCountRightWheel(){
+  encoderCountRightWheel++;
+}
+
+// Returns the amount of rotations of the left wheel
+int rotationsLeftWheel(){
+  return encoderCountLeftWheel / 8;
+}
+
+// Returns the amount of rotations of the right wheel
+int rotationsRightWheel(){
+  return encoderCountRightWheel / 8;
+}
+
+// Returns 1 if black tape else 0
+int detectBlackTape(int pin){
+  int sensedValue = analogRead(pin);
+  if (sensedValue > 460) {
+    return 1;
+  }
+  return 0;
+}
+
+// Moves the left wheel
+void moveLeftWheel(int angle){
+  servoLeftWheel.write(angle);
+}
+
+// Moves the right wheel
+void moveRightWheel(int angle){
+  servoRightWheel.write(angle);
+}
+
+// Turns the robot to a certain angle
+void turn(float angle){
+  int milliseconds = abs((((float)angle / (float) 360)) * turnTimeCalibration);
+  Serial.println(milliseconds);
+  moveLeftWheel(180);
+  moveRightWheel(180);
+  delay(milliseconds); // Remove later
+}
+
+// Changes the angle of the gripper
+void changeGripper(int angle){
+  servoGripperkit.write(angle);
+}
+
+// Remove
+void returnRockSample(){
+  changeGripper(180);
+  delay(5000);
+  changeGripper(0);
+  delay(1000);
+  while(detectBlackTape(pinInfraredLeft) == 0){
+    moveLeftWheel(0);
+    moveRightWheel(180);
+  }
+  moveLeftWheel(stopCalibration);
+  moveRightWheel(stopCalibration);
+  changeGripper(180);
+  delay(5000);
+}
+
+void setup() {
+  // Remove
+  Serial.begin(9600);
+
+  // Movement
+  servoLeftWheel.attach(pinLeftWheel);
+  servoRightWheel.attach(pinRightWheel);
+
+  // Gripperkit 
+  servoGripperkit.attach(pinGripperkit);
+
+  // Encoders
+  pinMode(encoderPinLeftWheel, INPUT_PULLUP);
+  enableInterrupt(encoderPinLeftWheel, isrCountLeftWheel, RISING);
+  pinMode(encoderPinRightWheel, INPUT_PULLUP);
+  enableInterrupt(encoderPinRightWheel, isrCountRightWheel, RISING);
+}
+
+void loop() {
+  returnRockSample();
+//detectBlackTape(pinInfraredLeft);
+
+  
+//  turn(360);
+//  delay(1000);
+//  moveLeftWheel(180);
+//  moveRightWheel(0);
+//  delay(1000);
+//  delay(1000);
+//  moveLeftWheel(stopCalibration);
+//  moveRightWheel(stopCalibration);
+//  delay(3000);
+}
