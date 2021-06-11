@@ -1,5 +1,5 @@
 long IR_beacon(){
-  sensorValue = analogRead(sensor);
+  sensorValue = analogRead(sensor1);
 
 Serial.print(sensorValue);
 Serial.print("\n");
