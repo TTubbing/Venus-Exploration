@@ -10,7 +10,8 @@ Servo servoLeftWheel;
 Servo servoRightWheel;
 const int pinLeftWheel = 12;
 const int pinRightWheel = 13;
-const int stopCalibration = 93;
+const int stopCalibrationLeft = 90;
+const int stopCalibrationRight = 167;
 const int turnTimeCalibration = 2000;
 
 // Gripperkit
@@ -34,22 +35,30 @@ void isrCountRightWheel(){
 }
 
 // Returns the amount of rotations of the left wheel
-int rotationsLeftWheel(){
+int getRotationsLeftWheel(){
   return encoderCountLeftWheel / 8;
 }
 
 // Returns the amount of rotations of the right wheel
-int rotationsRightWheel(){
+int getRotationsRightWheel(){
   return encoderCountRightWheel / 8;
 }
 
-// Returns 1 if black tape else 0
-int detectBlackTape(int pin){
-  int sensedValue = analogRead(pin);
-  if (sensedValue > 460) {
-    return 1;
-  }
-  return 0;
+// Returns the value of the infrared sensors
+int getInfraredValue(int pin){
+  return analogRead(pin);
+}
+
+// Changes the angle of the gripper
+void changeGripper(int angle){
+  servoGripperkit.write(angle);
+}
+
+void pickup(){
+  changeGripper(0);
+  delay(500);
+  changeGripper(180);
+  delay(500);
 }
 
 // Moves the left wheel
@@ -65,31 +74,49 @@ void moveRightWheel(int angle){
 // Turns the robot to a certain angle
 void turn(float angle){
   int milliseconds = abs((((float)angle / (float) 360)) * turnTimeCalibration);
-  Serial.println(milliseconds);
   moveLeftWheel(180);
   moveRightWheel(180);
   delay(milliseconds); // Remove later
 }
 
-// Changes the angle of the gripper
-void changeGripper(int angle){
-  servoGripperkit.write(angle);
+// Drives the robot forward
+void forward(){
+  moveLeftWheel(0);
+  moveRightWheel(180);
 }
 
-// Remove
-void returnRockSample(){
-  changeGripper(180);
-  delay(5000);
-  changeGripper(0);
-  delay(1000);
-  while(detectBlackTape(pinInfraredLeft) == 0){
-    moveLeftWheel(0);
-    moveRightWheel(180);
+// Drives the robot backwards
+void backward(){
+  moveLeftWheel(180);
+  moveRightWheel(0);
+}
+
+// Stops the robot
+void standStill(){
+  moveLeftWheel(stopCalibrationLeft);
+  moveRightWheel(stopCalibrationRight);
+  delay(500);
+}
+
+// Drives up the ramp
+void driveRampUp(){
+  int startInfraredValue = getInfraredValue(pinInfraredLeft);
+  while((getInfraredValue(pinInfraredLeft) - startInfraredValue) < 50){
+    forward();
   }
-  moveLeftWheel(stopCalibration);
-  moveRightWheel(stopCalibration);
-  changeGripper(180);
-  delay(5000);
+  standStill();
+  pickup();
+}
+
+// Drives down the ramp
+void driveRampDown(){
+  int startInfraredValue = getInfraredValue(pinInfraredLeft);
+  Serial.println(startInfraredValue);
+  while((startInfraredValue - getInfraredValue(pinInfraredLeft)) < 30){
+    Serial.println(startInfraredValue - getInfraredValue(pinInfraredLeft));
+    backward();
+  }
+  standStill();
 }
 
 void setup() {
@@ -111,17 +138,14 @@ void setup() {
 }
 
 void loop() {
-  returnRockSample();
-//detectBlackTape(pinInfraredLeft);
-
-  
-//  turn(360);
+//  standStill();
 //  delay(1000);
-//  moveLeftWheel(180);
-//  moveRightWheel(0);
-//  delay(1000);
-//  delay(1000);
-//  moveLeftWheel(stopCalibration);
-//  moveRightWheel(stopCalibration);
-//  delay(3000);
+//  pickup();
+//  driveRampUp();
+//  backward();
+//  delay(500);
+  driveRampDown();
+  standStill();
+  delay(500);
+//  Serial.println(getInfraredValue(pinInfraredLeft));
 }
