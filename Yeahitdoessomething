@@ -2,8 +2,17 @@
 #include <Servo.h>
 
 // Infrared
+int startInfraredValueLeft;
+int startInfraredValueRight;
 const int pinInfraredLeft = 2;
 const int pinInfraredRight = 3;
+
+// Ultrasonic
+Servo servoUltrasonicPlatform;
+const int echoPinUpperUltrasonic = 2;
+const int trigPinUpperUltrasonic = 3;
+const int pingPinLowerUltrasonic = 9;
+const int pinUltrasonicPlatform = 11;
 
 // Movement variables
 Servo servoLeftWheel;
@@ -49,6 +58,49 @@ int getInfraredValue(int pin){
   return analogRead(pin);
 }
 
+//// Returns 
+//int detectObjects(){
+//  for(int angle = 0; angle<=180; angle+=5){
+//    servoUltrasonicPlatform.write(angle);
+//    delay(100);
+//    long valueUpperUltrasonic = getUltrasonicCentimeters(getUltrasonicDuration4Pins(trigPinUpperUltrasonic, echoPinUpperUltrasonic));
+//    long valueLowerUltrasonic = getUltrasonicCentimeters(getUltrasonicDuration3Pins(pingPinLowerUltrasonic));
+//    if(valueLowerUltrasonic < (valueUpperUltrasonic - error_margin) && valueLowerUltrasonic < max_distance && valueLowerUltrasonic > distance_to_mountain){
+//      
+//    }
+//    
+//  }
+//}
+
+// Returns the duration from a ultrasonic sensor with 4 pins
+long getUltrasonicDuration4Pins(int trigPin, int echoPin){
+  long duration;
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(5);
+  digitalWrite(trigPin, LOW);
+  return pulseIn(echoPin, HIGH);
+}
+
+// Returns the duration from a ultrasonic sensor with 3 pins
+long getUltrasonicDuration3Pins(int pingPin){
+  pinMode(pingPin, OUTPUT);
+  digitalWrite(pingPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(pingPin, HIGH);
+  delayMicroseconds(5);
+  digitalWrite(pingPin, LOW);
+  pinMode(pingPin, INPUT);
+  return pulseIn(pingPin, HIGH);
+}
+
+
+// Returns centimeter values from the microseconds detected by the ultrasonic sensor
+long getUltrasonicCentimeters(long microseconds) {
+  return microseconds / 29 / 2;
+}
+
 // Changes the angle of the gripper
 void changeGripper(int angle){
   servoGripperkit.write(angle);
@@ -74,8 +126,13 @@ void moveRightWheel(int angle){
 // Turns the robot to a certain angle
 void turn(float angle){
   int milliseconds = abs((((float)angle / (float) 360)) * turnTimeCalibration);
-  moveLeftWheel(180);
-  moveRightWheel(180);
+  if(angle <= 0){
+    moveLeftWheel(0);
+    moveRightWheel(0);
+  }else{
+    moveLeftWheel(180);
+    moveRightWheel(180);
+  }
   delay(milliseconds); // Remove later
 }
 
@@ -111,23 +168,42 @@ void driveRampUp(){
 // Drives down the ramp
 void driveRampDown(){
   int startInfraredValue = getInfraredValue(pinInfraredLeft);
-  Serial.println(startInfraredValue);
-  while((startInfraredValue - getInfraredValue(pinInfraredLeft)) < 30){
-    Serial.println(startInfraredValue - getInfraredValue(pinInfraredLeft));
+  while((startInfraredValue - getInfraredValue(pinInfraredLeft)) < 50){
     backward();
   }
   standStill();
+}
+
+// Avoids the cliffs and borders
+void avoidCliffsAndBorders(){
+  int changeInfraredLeft = getInfraredValue(pinInfraredLeft) - startInfraredValueLeft;
+  int changeInfraredRight = getInfraredValue(pinInfraredRight) - startInfraredValueRight;
+  if((changeInfraredLeft < 100) && (changeInfraredRight < 100)){
+    forward();
+    delay(10);
+  }else{
+    turn(1);
+  }
 }
 
 void setup() {
   // Remove
   Serial.begin(9600);
 
+  // Infrared
+  startInfraredValueLeft = getInfraredValue(pinInfraredLeft);
+  startInfraredValueRight = getInfraredValue(pinInfraredRight);
+
+  // Ultrasonic
+  servoUltrasonicPlatform.attach(pinUltrasonicPlatform);
+  pinMode(trigPinUpperUltrasonic, OUTPUT);
+  pinMode(echoPinUpperUltrasonic, INPUT);
+
   // Movement
   servoLeftWheel.attach(pinLeftWheel);
   servoRightWheel.attach(pinRightWheel);
 
-  // Gripperkit 
+  // Gripperkit
   servoGripperkit.attach(pinGripperkit);
 
   // Encoders
@@ -138,14 +214,15 @@ void setup() {
 }
 
 void loop() {
+  avoidCliffsAndBorders();
 //  standStill();
 //  delay(1000);
 //  pickup();
 //  driveRampUp();
 //  backward();
+//  delay(1000);
+//  driveRampDown();
+//  standStill();
 //  delay(500);
-  driveRampDown();
-  standStill();
-  delay(500);
 //  Serial.println(getInfraredValue(pinInfraredLeft));
 }
