@@ -1,3 +1,14 @@
+void avoidCliffsAndBorders(){
+  int changeInfraredLeft = getInfraredValue(pinInfraredLeft) - startInfraredValueLeft;
+  int changeInfraredRight = getInfraredValue(pinInfraredRight) - startInfraredValueRight;
+  if((changeInfraredLeft < 100) && (changeInfraredRight < 100)){
+    forward();
+    delay(10);
+  }else{
+    turn(1);
+  }
+}
+
 int sample_function(){ //function to drive and collect samples
   int angle = detect_sample();
   if(angle == -1){
