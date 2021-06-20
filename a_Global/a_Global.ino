@@ -114,6 +114,7 @@ void stopp(int angle, int count);
 void stoppp();
 void turn(int angle, bool safe);
 //obstacle detection
+void avoidCliffsAndBorders();
 int sample_function();
 int mountain_function();
 void drive_to_mountain(int angle);
