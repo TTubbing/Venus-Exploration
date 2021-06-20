@@ -57,13 +57,13 @@ void returnpath(){
 }
 
 void drop_lab(){
-  standStill();
+  stoppp();
   delay(1000);
   pickup();
   driveRampUp();
   backward();
   delay(1000);
   driveRampDown();
-  standStill();
+  stoppp();
   delay(500);
 }
