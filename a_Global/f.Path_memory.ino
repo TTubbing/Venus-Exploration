@@ -55,3 +55,15 @@ void returnpath(){
     }
     initialise_path(); //set all values in path array to 0
 }
+
+void drop_lab(){
+  standStill();
+  delay(1000);
+  pickup();
+  driveRampUp();
+  backward();
+  delay(1000);
+  driveRampDown();
+  standStill();
+  delay(500);
+}
