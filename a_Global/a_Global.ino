@@ -126,7 +126,6 @@ int detect_sample();
 int detect_mountain();
 void grab_sample();
 //path memory
-void drop_lab();
 void addpath(int angle, int count);
 void initialise_path();
 void returnpath();
@@ -140,3 +139,9 @@ void avoidCliffsAndBorders();
 //path
 void isrLeft();
 void isrRight();
+//lab
+void drop_lab();
+int getInfraredValue(int pin);
+void driveRampUp();
+void driveRampDown();
+void pickup();
