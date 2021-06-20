@@ -1,3 +1,24 @@
+int getInfraredValue(int pin){
+  return analogRead(pin);
+}
+
+void driveRampUp(){
+  int startInfraredValue = getInfraredValue(pinInfraredLeft);
+  while((getInfraredValue(pinInfraredLeft) - startInfraredValue) < 50){
+    forward();
+  }
+  stoppp();
+  pickup();
+}
+
+void driveRampDown(){
+  int startInfraredValue = getInfraredValue(pinInfraredLeft);
+  while((startInfraredValue - getInfraredValue(pinInfraredLeft)) < 50){
+    backward();
+  }
+  stoppp();
+}
+
 void pickup(){
   GripperservoPin.write(0);
   delay(500);
