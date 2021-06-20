@@ -5,3 +5,15 @@ void pickup(){
   delay(500);
 }
 
+void drop_lab(){
+  stoppp();
+  delay(1000);
+  pickup();
+  driveRampUp();
+  backward();
+  delay(1000);
+  driveRampDown();
+  stoppp();
+  delay(500);
+}
+
