@@ -126,6 +126,7 @@ int detect_sample();
 int detect_mountain();
 void grab_sample();
 //path memory
+void drop_lab();
 void addpath(int angle, int count);
 void initialise_path();
 void returnpath();
